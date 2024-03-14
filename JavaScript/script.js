@@ -85,26 +85,26 @@ function keyUpHandler(e) {
 
 // Update game state
 function update() {
-  // Move paddles
-  if (upPressed && rightPaddleY > 0) {
-    rightPaddleY -= paddleSpeed;
-  } else if (downPressed && rightPaddleY + paddleHeight < canvas.height) {
-    rightPaddleY += paddleSpeed;
-  }
+  // Move right paddle based on "up" and "down" arrow keys
+  //if (upPressed && rightPaddleY > 0) {
+  //  rightPaddleY -= paddleSpeed;
+  //} else if (downPressed && rightPaddleY + paddleHeight < canvas.height) {
+  //  rightPaddleY += paddleSpeed;
+  //}
 
-  // Move right paddle based on "w" and "s" keys
+  // Move left paddle based on "w" and "s" keys
   if (wPressed && leftPaddleY > 0) {
     leftPaddleY -= paddleSpeed;
   } else if (sPressed && leftPaddleY + paddleHeight < canvas.height) {
     leftPaddleY += paddleSpeed;
   }
-
+  //Ai
   // Move right paddle automatically based on ball position
-  // if (ballY > rightPaddleY + paddleHeight / 2) {
-  //   rightPaddleY += paddleSpeed;
-  // } else if (ballY < rightPaddleY + paddleHeight / 2) {
-  //   rightPaddleY -= paddleSpeed;
-  // }
+   if (ballY > rightPaddleY + paddleHeight / 2) {
+     rightPaddleY += paddleSpeed;
+   } else if (ballY < rightPaddleY + paddleHeight / 2) {
+     rightPaddleY -= paddleSpeed;
+   }
 
   // Move ball
   ballX += ballSpeedX;
@@ -136,10 +136,10 @@ function update() {
   // Check if ball goes out of bounds on left or right side of canvas
   if (ballX < 0) {
     rightPlayerScore++;
-    reset();
+    setTimeout(reset(), 500)
   } else if (ballX > canvas.width) {
     leftPlayerScore++;
-    reset();
+    setTimeout(reset(), 500)
   }
 
   // Check if a player has won
@@ -154,7 +154,7 @@ function playerWin(player) {
   var message = "Congratulations! " + player + " win!";
   $('#message').text(message); // Set the message text
   $('#message-modal').modal('show'); // Display the message modal
-  reset();
+  setTimeout(reset(), 500);
 }
 
 // Reset ball to center of screen
