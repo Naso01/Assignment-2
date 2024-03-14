@@ -35,6 +35,7 @@ var ballX = canvas.width / 2;
 var ballY = canvas.height / 2;
 var ballSpeedX = 3;
 var ballSpeedY = 3;
+var absoluteBallSpeedX;
 
 // Define paddle properties
 var paddleHeight = 80;
@@ -85,12 +86,12 @@ function keyUpHandler(e) {
 
 // Update game state
 function update() {
-  // Move right paddle based on "up" and "down" arrow keys
-  //if (upPressed && rightPaddleY > 0) {
-  //  rightPaddleY -= paddleSpeed;
-  //} else if (downPressed && rightPaddleY + paddleHeight < canvas.height) {
-  //  rightPaddleY += paddleSpeed;
-  //}
+   //Move right paddle based on "up" and "down" arrow keys
+  if (upPressed && rightPaddleY > 0) {
+    rightPaddleY -= paddleSpeed;
+  } else if (downPressed && rightPaddleY + paddleHeight < canvas.height) {
+    rightPaddleY += paddleSpeed;
+  }
 
   // Move left paddle based on "w" and "s" keys
   if (wPressed && leftPaddleY > 0) {
@@ -100,11 +101,11 @@ function update() {
   }
   //Ai
   // Move right paddle automatically based on ball position
-   if (ballY > rightPaddleY + paddleHeight / 2) {
-     rightPaddleY += paddleSpeed;
-   } else if (ballY < rightPaddleY + paddleHeight / 2) {
-     rightPaddleY -= paddleSpeed;
-   }
+   //if (ballY > rightPaddleY + paddleHeight / 2) {
+    // rightPaddleY += paddleSpeed;
+  // } else if (ballY < rightPaddleY + paddleHeight / 2) {
+   //  rightPaddleY -= paddleSpeed;
+   //}
 
   // Move ball
   ballX += ballSpeedX;
@@ -136,10 +137,10 @@ function update() {
   // Check if ball goes out of bounds on left or right side of canvas
   if (ballX < 0) {
     rightPlayerScore++;
-    setTimeout(reset(), 500)
+    reset()
   } else if (ballX > canvas.width) {
     leftPlayerScore++;
-    setTimeout(reset(), 500)
+    reset()
   }
 
   // Check if a player has won
@@ -154,14 +155,20 @@ function playerWin(player) {
   var message = "Congratulations! " + player + " win!";
   $('#message').text(message); // Set the message text
   $('#message-modal').modal('show'); // Display the message modal
-  setTimeout(reset(), 500);
+  reset()
 }
 
 // Reset ball to center of screen
 function reset() {
   ballX = canvas.width / 2;
   ballY = canvas.height / 2;
-  ballSpeedX = -ballSpeedX;
+  absoluteBallSpeedX = -ballSpeedX;
+  ballSpeedX = 0;
+  ballSpeedY = 0;
+  window.setTimeout(moveBall,500);
+}
+function moveBall() {
+  ballSpeedX = absoluteBallSpeedX;
   ballSpeedY = Math.random() * 10 - 5;
 }
 
