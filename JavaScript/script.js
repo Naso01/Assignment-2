@@ -7,13 +7,53 @@ var pauseBtn = document.getElementById("pause-btn");
 var restartBtn = document.getElementById("restart-btn");
 var animationId;
 var gameRunning = false;
+var time = 3;
+
 
 startBtn.addEventListener("click", function() {
   if (!gameRunning) { // only start the game if gameRunning is false
     gameRunning = true; // set gameRunning to true when the game starts
-    loop();
+    let timer = time;
+    let interval = setInterval(function updateCountdown(){
+      draw();
+      ctx.fillStyle = "#940e0e";
+      ctx.font = "50px Arial";
+      // canvas.width - 312 for center
+      ctx.fillText(timer, canvas.width - 312 , canvas.height -300);
+      if (timer< 1){
+        clearInterval(interval);
+        loop();
+      }
+      timer--;
+    }, 1000);
+    
   }
 });
+
+
+/*
+  ctx.fillStyle = "#940e0e";
+  ctx.font = "50px Arial";
+
+  window.setTimeout (function (){ 
+    ctx.fillStyle = "#940e0e";
+    ctx.font = "50px Arial";
+    ctx.fillText("3", canvas.width - 320 , canvas.height / 2);},500)
+
+    window.setTimeout (function(){
+      ctx.fillStyle = "#940e0e";
+      ctx.font = "50px Arial";
+      ctx.fillText("2", canvas.width - 304, canvas.height / 2);},500)
+
+  window.setTimeout (function(){
+    ctx.fillStyle = "#940e0e";
+    ctx.font = "50px Arial";
+    ctx.fillText("1", canvas.width - 290, canvas.height / 2);},500)
+    */
+
+
+
+
 
 pauseBtn.addEventListener("click", function() {
   gameRunning = false;
@@ -137,10 +177,10 @@ function update() {
   // Check if ball goes out of bounds on left or right side of canvas
   if (ballX < 0) {
     rightPlayerScore++;
-    reset()
+    reset();
   } else if (ballX > canvas.width) {
     leftPlayerScore++;
-    reset()
+    reset();
   }
 
   // Check if a player has won
@@ -155,7 +195,7 @@ function playerWin(player) {
   var message = "Congratulations! " + player + " win!";
   $('#message').text(message); // Set the message text
   $('#message-modal').modal('show'); // Display the message modal
-  reset()
+  reset();
 }
 
 // Reset ball to center of screen
@@ -165,11 +205,10 @@ function reset() {
   absoluteBallSpeedX = -ballSpeedX;
   ballSpeedX = 0;
   ballSpeedY = 0;
-  window.setTimeout(moveBall,500);
-}
-function moveBall() {
-  ballSpeedX = absoluteBallSpeedX;
-  ballSpeedY = Math.random() * 10 - 5;
+
+  window.setTimeout(function(){
+    ballSpeedX = absoluteBallSpeedX;
+  ballSpeedY = Math.random() * 10 - 5;},500);
 }
 
 // Draw objects on canvas
@@ -202,6 +241,7 @@ function draw() {
   // Draw scores
   ctx.fillText("Score: " + leftPlayerScore, 10, 20);
   ctx.fillText("Score: " + rightPlayerScore, canvas.width - 70, 20);
+
 }
 
 // Game loop
