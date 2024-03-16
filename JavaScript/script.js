@@ -120,8 +120,9 @@ function update() {
     // Check if ball goes out of bounds on left or right side of canvas
     if (ballX < 0) {
       //AI paddle gets slower when it scores
-      rightPaddleSpeed--;
-
+      if (rightPaddleSpeed > 1){
+        rightPaddleSpeed--;
+      }
     } else if (ballX > canvas.width) {
       //AI paddle gets faster when player scores
       rightPaddleSpeed++;
