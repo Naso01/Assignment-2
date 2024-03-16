@@ -8,52 +8,29 @@ var restartBtn = document.getElementById("restart-btn");
 var animationId;
 var gameRunning = false;
 var time = 3;
-
+// switch between Ai and player by changing values
+var aiActive = true;
 
 startBtn.addEventListener("click", function() {
   if (!gameRunning) { // only start the game if gameRunning is false
     gameRunning = true; // set gameRunning to true when the game starts
+
     let timer = time;
+
     let interval = setInterval(function updateCountdown(){
       draw();
-      ctx.fillStyle = "#940e0e";
+      ctx.fillStyle = "#989aac";
       ctx.font = "50px Arial";
-      // canvas.width - 312 for center
-      ctx.fillText(timer, canvas.width - 312 , canvas.height -300);
+      // canvas.width - 314 , canvas.height -300 for original config
+      ctx.fillText(timer, canvas.width - 314 , canvas.height -300);
       if (timer< 1){
         clearInterval(interval);
         loop();
       }
       timer--;
     }, 1000);
-    
   }
 });
-
-
-/*
-  ctx.fillStyle = "#940e0e";
-  ctx.font = "50px Arial";
-
-  window.setTimeout (function (){ 
-    ctx.fillStyle = "#940e0e";
-    ctx.font = "50px Arial";
-    ctx.fillText("3", canvas.width - 320 , canvas.height / 2);},500)
-
-    window.setTimeout (function(){
-      ctx.fillStyle = "#940e0e";
-      ctx.font = "50px Arial";
-      ctx.fillText("2", canvas.width - 304, canvas.height / 2);},500)
-
-  window.setTimeout (function(){
-    ctx.fillStyle = "#940e0e";
-    ctx.font = "50px Arial";
-    ctx.fillText("1", canvas.width - 290, canvas.height / 2);},500)
-    */
-
-
-
-
 
 pauseBtn.addEventListener("click", function() {
   gameRunning = false;
@@ -82,9 +59,13 @@ var paddleHeight = 80;
 var paddleWidth = 10;
 var leftPaddleY = canvas.height / 2 - paddleHeight / 2;
 var rightPaddleY = canvas.height / 2 - paddleHeight / 2;
-var paddleSpeed = 5;
 
+var leftPaddleSpeed = 5;
+if (aiActive == false){var rightPaddleSpeed = leftPaddleSpeed;}
+// Ai difficulty
+else {var rightPaddleSpeed = leftPaddleSpeed - 2;}
 // Define score properties
+
 var leftPlayerScore = 0;
 var rightPlayerScore = 0;
 var maxScore = 20;
@@ -126,27 +107,47 @@ function keyUpHandler(e) {
 
 // Update game state
 function update() {
+
+  //AI Logic
+  function AiLogic(){
+  // Move right paddle automatically based on ball position
+    if (ballY > rightPaddleY + paddleHeight / 2) {
+      rightPaddleY += rightPaddleSpeed;
+    } else if (ballY < rightPaddleY + paddleHeight / 2) {
+      rightPaddleY -= rightPaddleSpeed;
+    }
+  
+    // Check if ball goes out of bounds on left or right side of canvas
+    if (ballX < 0) {
+      //AI paddle gets slower when it scores
+      rightPaddleSpeed--;
+
+    } else if (ballX > canvas.width) {
+      //AI paddle gets faster when player scores
+      rightPaddleSpeed++;
+    }
+    if (rightPlayerScore === maxScore) {
+      playerWin("The Ai");
+    }
+  }
+    if (aiActive == true){AiLogic();}
+    
    //Move right paddle based on "up" and "down" arrow keys
-  if (upPressed && rightPaddleY > 0) {
-    rightPaddleY -= paddleSpeed;
-  } else if (downPressed && rightPaddleY + paddleHeight < canvas.height) {
-    rightPaddleY += paddleSpeed;
+  if (aiActive = false){
+    if (upPressed && rightPaddleY > 0) {
+      rightPaddleY -= rightPaddleSpeed;
+    } else if (downPressed && rightPaddleY + paddleHeight < canvas.height) {
+      rightPaddleY += rightPaddleSpeed;
+    }
   }
 
   // Move left paddle based on "w" and "s" keys
   if (wPressed && leftPaddleY > 0) {
-    leftPaddleY -= paddleSpeed;
+    leftPaddleY -= leftPaddleSpeed;
   } else if (sPressed && leftPaddleY + paddleHeight < canvas.height) {
-    leftPaddleY += paddleSpeed;
+    leftPaddleY += leftPaddleSpeed;
   }
-  //Ai
-  // Move right paddle automatically based on ball position
-   //if (ballY > rightPaddleY + paddleHeight / 2) {
-    // rightPaddleY += paddleSpeed;
-  // } else if (ballY < rightPaddleY + paddleHeight / 2) {
-   //  rightPaddleY -= paddleSpeed;
-   //}
-
+  
   // Move ball
   ballX += ballSpeedX;
   ballY += ballSpeedY;
@@ -166,6 +167,7 @@ function update() {
   }
 
   // Check if ball collides with right paddle
+  // for right player (2nd player)
   if (
     ballX + ballRadius > canvas.width - paddleWidth &&
     ballY > rightPaddleY &&
@@ -174,25 +176,27 @@ function update() {
     ballSpeedX = -ballSpeedX;
   }
 
+
   // Check if ball goes out of bounds on left or right side of canvas
   if (ballX < 0) {
     rightPlayerScore++;
     reset();
+
   } else if (ballX > canvas.width) {
     leftPlayerScore++;
     reset();
   }
 
-  // Check if a player has won
+  // Check if a player or Ai has won
   if (leftPlayerScore === maxScore) {
     playerWin("Left player");
   } else if (rightPlayerScore === maxScore) {
-    playerWin("Right player");
+    if (aiActive == false) {playerWin("Right player");}
   }
 }
 
 function playerWin(player) {
-  var message = "Congratulations! " + player + " win!";
+  var message = "Congratulations! " + player + " Wins!";
   $('#message').text(message); // Set the message text
   $('#message-modal').modal('show'); // Display the message modal
   reset();
