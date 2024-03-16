@@ -25,7 +25,37 @@
     <button id="restart-btn" class="btn">Restart</button>
     <button id="player-btn" class="btn">Player vs AI</button>
   </div>
- <p class="control">Control: Player Left(W and S)</p>
+  <!--Left Player Radio Button-->
+  <div class="leftRadioButton">
+    <input type="radio" id="left-classic" name="left-color" value="#FFF">
+    <label id="label-classic" for="left-classic">Classic</label><br>
+
+    <input type="radio" id="left-red" name="left-color" value="#ce070c">
+    <label id="label-red" for="left-red">Red</label><br>
+
+    <input type="radio" id="left-green" name="left-color" value="#bcff67">
+    <label id="label-green" for="left-green">Green</label><br>
+
+    <input type="radio" id="left-blue" name="left-color" value="#02677e">
+    <label id="label-blue" for="left-blue">Blue</label><br>
+  </div>
+  <!--Right Player Radio Button-->
+  <div class="rightRadioButton">
+    <input type="radio" id="right-classic" name="right-color" value="#FFF">
+    <label id="label-classic" for="right-classic">Classic</label><br>
+
+    <input type="radio" id="right-red" name="right-color" value="#ce070c">
+    <label id="label-red" for="right-red">Red</label><br>
+
+    <input type="radio" id="right-green" name="right-color" value="#bcff67">
+    <label id="label-green" for="right-green">Green</label><br>
+
+    <input type="radio" id="right-blue" name="right-color" value="#02677e">
+    <label id="label-blue" for="right-blue">Blue</label><br>
+    </div>
+
+ <p class="control">Control: Player 1 (W and S) Player 2 (↑ and ↓)</p>
+  
   <!-- Add a modal element with an ID -->
 <div class="modal" tabindex="-1" role="dialog" id="message-modal">
   <div class="modal-dialog" role="document">

@@ -1,3 +1,6 @@
+body{
+  background: #65656b;
+}
 .container {
     display: flex;
     flex-direction: column;
@@ -29,8 +32,23 @@
     background-color: #7f838a;
   }
   
+  .leftRadioButton{
+    float: left;
+    margin-left: 20%;
+  }
+  .rightRadioButton{
+    float: right;
+    margin-right: 20%;
+  }
+  #label-classic {color: #FFF;}
+  #label-red {color: #ce070c;}
+  #label-green {color: #bcff67;}
+  #label-blue {color: #02677e;}
+
   .control {
-      text-align: center;
+    float: center;
+    text-align: center;
+    color: #FFF;
   }
   
   canvas {

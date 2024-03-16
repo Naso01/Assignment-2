@@ -6,6 +6,21 @@ var startBtn = document.getElementById("start-btn");
 var pauseBtn = document.getElementById("pause-btn");
 var restartBtn = document.getElementById("restart-btn");
 var playerBtn = document.getElementById("player-btn");
+//left radiobuttons
+var leftClassicBtn = document.getElementById("left-classic");
+var leftRedBtn = document.getElementById("left-red");
+var leftGreenBtn = document.getElementById("left-green");
+var leftBlueBtn = document.getElementById("left-blue");
+//right radiobuttons
+var rightClassicBtn = document.getElementById("right-classic");
+var rightRedBtn = document.getElementById("right-red");
+var rightGreenBtn = document.getElementById("right-green");
+var rightBlueBtn = document.getElementById("right-blue");
+
+//Classic color default
+leftClassicBtn.checked = true;
+rightClassicBtn.checked = true;
+
 var animationId;
 var gameRunning = false;
 
@@ -261,13 +276,21 @@ function draw() {
   ctx.closePath();
 
   // Draw left paddle
+  if(leftClassicBtn.checked == true) {ctx.fillStyle = leftClassicBtn.value;}
+  if(leftRedBtn.checked == true) {ctx.fillStyle = leftRedBtn.value;}
+  if(leftGreenBtn.checked == true) {ctx.fillStyle = leftGreenBtn.value;}
+  if(leftBlueBtn.checked == true) {ctx.fillStyle = leftBlueBtn.value;}
   ctx.fillRect(0, leftPaddleY, paddleWidth, paddleHeight);
+  // Draw left scores
+  ctx.fillText("Score: " + leftPlayerScore, 10, 20);
 
   // Draw right paddle
+  if(rightClassicBtn.checked == true) {ctx.fillStyle = rightClassicBtn.value;}
+  if(rightRedBtn.checked == true) {ctx.fillStyle = rightRedBtn.value;}
+  if(rightGreenBtn.checked == true) {ctx.fillStyle = rightGreenBtn.value;}
+  if(rightBlueBtn.checked == true) {ctx.fillStyle = rightBlueBtn.value;}
   ctx.fillRect(canvas.width - paddleWidth, rightPaddleY, paddleWidth, paddleHeight);
-
-  // Draw scores
-  ctx.fillText("Score: " + leftPlayerScore, 10, 20);
+  // Draw right scores
   ctx.fillText("Score: " + rightPlayerScore, canvas.width - 70, 20);
 
 }
