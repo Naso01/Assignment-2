@@ -52,7 +52,7 @@ var ballX = canvas.width / 2;
 var ballY = canvas.height / 2;
 var ballSpeedX = 3;
 var ballSpeedY = 3;
-var absoluteBallSpeedX;
+var absoluteBallSpeedX = ballSpeedX;
 
 // Define paddle properties
 var paddleHeight = 80;
@@ -130,10 +130,11 @@ function update() {
       playerWin("The Ai");
     }
   }
-    if (aiActive == true){AiLogic();}
+  //activate Ai
+  if (aiActive == true) {AiLogic();}
     
    //Move right paddle based on "up" and "down" arrow keys
-  if (aiActive = false){
+  if (aiActive == false){
     if (upPressed && rightPaddleY > 0) {
       rightPaddleY -= rightPaddleSpeed;
     } else if (downPressed && rightPaddleY + paddleHeight < canvas.height) {
@@ -163,7 +164,10 @@ function update() {
     ballY > leftPaddleY &&
     ballY < leftPaddleY + paddleHeight
   ) {
+    ballSpeedX += 1;
+    ballSpeedY += 1;
     ballSpeedX = -ballSpeedX;
+    
   }
 
   // Check if ball collides with right paddle
@@ -173,7 +177,10 @@ function update() {
     ballY > rightPaddleY &&
     ballY < rightPaddleY + paddleHeight
   ) {
+    ballSpeedX += 1;
+    ballSpeedY += 1;
     ballSpeedX = -ballSpeedX;
+    
   }
 
 
@@ -206,7 +213,7 @@ function playerWin(player) {
 function reset() {
   ballX = canvas.width / 2;
   ballY = canvas.height / 2;
-  absoluteBallSpeedX = -ballSpeedX;
+  absoluteBallSpeedX = -absoluteBallSpeedX;
   ballSpeedX = 0;
   ballSpeedY = 0;
 
