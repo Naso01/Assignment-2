@@ -5,10 +5,14 @@ var ctx = canvas.getContext("2d");
 var startBtn = document.getElementById("start-btn");
 var pauseBtn = document.getElementById("pause-btn");
 var restartBtn = document.getElementById("restart-btn");
+var playerBtn = document.getElementById("player-btn");
 var animationId;
 var gameRunning = false;
+
+//timer value
 var time = 3;
-// switch between Ai and player by changing values
+
+//Ai or Player (right paddle) Selection
 var aiActive = true;
 
 startBtn.addEventListener("click", function() {
@@ -35,10 +39,24 @@ startBtn.addEventListener("click", function() {
 pauseBtn.addEventListener("click", function() {
   gameRunning = false;
   cancelAnimationFrame(animationId);
+  document.But
 });
 
 restartBtn.addEventListener("click", function() {
   document.location.reload();
+});
+
+playerBtn.addEventListener("click", function() {
+
+  if(aiActive== true){
+    aiActive = false;
+    document.getElementById("player-btn").innerHTML = "Player vs Player"
+  }else{
+      aiActive = true;
+      document.getElementById("player-btn").innerHTML = "Player vs AI"
+  }
+  if (aiActive == false) {rightPaddleSpeed = leftPaddleSpeed;}
+  
 });
 
 addEventListener("load", (event) => {
@@ -59,13 +77,11 @@ var paddleHeight = 80;
 var paddleWidth = 10;
 var leftPaddleY = canvas.height / 2 - paddleHeight / 2;
 var rightPaddleY = canvas.height / 2 - paddleHeight / 2;
-
 var leftPaddleSpeed = 5;
-if (aiActive == false){var rightPaddleSpeed = leftPaddleSpeed;}
-// Ai difficulty
-else {var rightPaddleSpeed = leftPaddleSpeed - 2;}
-// Define score properties
+var rightPaddleSpeed;
+if (aiActive == true) {rightPaddleSpeed = leftPaddleSpeed -2;}
 
+// Define score properties
 var leftPlayerScore = 0;
 var rightPlayerScore = 0;
 var maxScore = 20;
